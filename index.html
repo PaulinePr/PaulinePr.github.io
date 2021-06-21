@@ -47,12 +47,8 @@
       require(["esri/config","esri/Map", "esri/WebMap", "esri/views/MapView", "esri/widgets/Sketch",
       "esri/layers/GraphicsLayer",
       "esri/widgets/LayerList",
-      "esri/layers/FeatureLayer", "esri/PopupTemplate"], function (esriConfig,Map,WebMap, MapView,Sketch, GraphicsLayer,LayerList, FeatureLayer,PopupTemplate) {
+      "esri/layers/FeatureLayer", "esri/widgets/ScaleBar"], function (esriConfig,Map,WebMap, MapView,Sketch, GraphicsLayer,LayerList, FeatureLayer, ScaleBar) {
 
-
-
-        //esriConfig.apiKey = "AAPK79a70a3ec59b4745b5b1e523e82f8df4o-ZRHWEt9n7_No_eP2KyJOzPJbNDMhpWkCEr6TUbOeb9Udc8NEj0kM6KtDm9xAZL";
-        //esriConfig.portalUrl = "https://ivfl.maps.arcgis.com";
 
         var liste_2015 = [];
         var listeid2015 = [];
@@ -212,10 +208,10 @@
       }
 
       function create_diagram(matrix, names){
-        var margin = {left:90, top:90, right:90, bottom:90},
-            width =  1000 - margin.left - margin.right, // more flexibility: Math.min(window.innerWidth, 1000)
-            height =  1000 - margin.top - margin.bottom, // same: Math.min(window.innerWidth, 1000)
-            innerRadius = Math.min(width, height) * .39,
+        var margin = {left:500, top:300, right:150, bottom:150},
+            width =   Math.min(window.innerWidth, 1000)
+            height =  Math.min(window.innerWidth, 1000)
+            innerRadius = Math.min(width, height) * .50,
             outerRadius = innerRadius * 1.1;
 
 
@@ -328,7 +324,7 @@
       function foo(){
         document.getElementById("button").innerHTML = "";
         var button = document.createElement('button');
-        button.innerHTML = 'click me';
+        button.innerHTML = 'Generate Chord Diagram';
         button.onclick = function(){
           document.getElementById("chart").innerHTML = "";
           var  lid1 = [];
@@ -396,6 +392,7 @@
           create_names_list(lcrop1,lcrop2);
 
           var matrix = create_matrix(liste_comp,liste_names);
+          console.log(matrix);
 
           create_diagram(matrix,liste_names);
 
@@ -593,6 +590,14 @@
         view.ui.add(layerList, "top-right");
       });
 
+      var scaleBar = new ScaleBar({
+        view: view,
+        unit: "dual"
+      });
+      // Add widget to the bottom left corner of the view
+      view.ui.add(scaleBar, {
+        position: "bottom-left"
+      });
 
 
 
